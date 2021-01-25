@@ -1,0 +1,2907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show case</title>
+</head>
+
+<style>
+    html, body, #app {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        background: white;
+        font-family: 'Source Sans Pro', sans-serif;
+        font-style: normal;
+        color: #324353;
+        overflow: hidden;
+    }
+
+    input:focus, button:focus {
+        outline: 0;
+    }
+
+    .inline {
+        display: inline-block;
+    }
+
+    .header {
+        height: 34px;
+        padding: 9px 15px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .filters {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .bg-gray {
+        background: #F3F4F5;
+    }
+
+    .filter {
+        border-radius: 2px;
+        padding: 0 8px 4px 8px;
+        color: #337ECF;
+        border: none;
+
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 14px;
+
+        margin-right: 16px;
+        cursor: pointer;
+        font-weight: normal;
+    }
+
+    .filter-label {
+        margin-left: 5px;
+        font-weight: normal;
+    }
+
+    .options {
+        flex-grow: 1;
+        /*background: grey;*/
+    }
+
+    .filters {
+        flex-grow: 3;
+        /*background: #0e3460;*/
+    }
+
+    .calendar {
+        /*background: yellow;*/
+        /*width: 15%;*/
+        /*width: 248px;*/
+        /*width: 226px;*/
+        width: 200px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 20px;
+        position: relative;
+    }
+
+    .calendar-select-range {
+        position: absolute;
+        left: 0;
+        top: 0;
+        background: #FFFFFF;
+        box-shadow: 0 8px 24px rgba(35, 41, 47, 0.2);
+        border-radius: 4px;
+        z-index: 6;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+
+        color: #324353;
+    }
+
+    .range-section {
+        padding: 25px 25px;
+        border-bottom: 1px solid #E1EAF0;
+    }
+
+    .range-section .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        white-space: nowrap;
+        min-width: 297px;
+    }
+
+    .row.content-to-right {
+        justify-content: flex-end;
+    }
+
+    .radio-group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 6px 0;
+    }
+
+    .hide {
+        display: none;
+    }
+
+    .range-section .row .col {
+        width: 100%;
+    }
+
+    .option {
+        background: #F3F4F5;
+        border-radius: 4px;
+        color: #337ECF;
+        font-weight: 600;
+
+        padding: 8px 17px;
+        margin-left: 8px;
+
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .options .container {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .btn {
+        border-radius: 4px;
+        border: none;
+        color: white;
+        padding: 8px 17px;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: #337ECF;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        color: white;
+    }
+
+    .view {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    thead {
+        background: #F3F4F5;
+    }
+
+    table, th, td {
+        border: 1px solid #E1EAF0;
+        text-align: unset;
+    }
+
+    td {
+        padding: 6px;
+    }
+
+    table, thead th {
+        border-top: none;
+        border-bottom: none;
+        text-align: unset;
+    }
+
+    tbody tr:first-child td {
+        border-top: none;
+    }
+
+    th {
+        padding: 6px;
+        color: #324353;
+        font-style: normal;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 14px;
+        position: relative;
+        align-items: baseline;
+        line-height: 15px;
+    }
+
+    th:first-child {
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*justify-content: space-between;*/
+        z-index: 3;
+    }
+
+    .cell-option {
+        border: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        background: transparent;
+    }
+
+    .employees-options {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .ml-16 {
+        margin-left: 16px;
+    }
+
+    th {
+        background: #F3F4F5;
+    }
+
+    th.employee-column {
+        width: calc(100% - 3px);
+        padding: 9px 9px 9px 14px;
+        height: 100%;
+        line-height: 15px;
+        background: #F3F4F5;
+        border-right: 1px solid #E1EAF0 !important;
+        z-index: 5;
+    }
+
+    .employee-column {
+        border-right: 1px solid #E1EAF0 !important;
+        background: #FFFFFF;
+        height: calc(100% - 12px);
+        /*box-shadow: 3px 0 4px rgba(35, 41, 47, 0.1);*/
+    }
+
+    .day-name {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+    }
+
+    .date {
+        font-size: 12px;
+        color: #858F99;
+        font-weight: normal;
+    }
+
+    .week-nr {
+        color: #337ECF;
+        position: absolute;
+        right: 6px;
+        top: 6px;
+        font-weight: normal;
+        font-size: 10px;
+        padding: 3px 8px;
+        background: linear-gradient(0deg, rgba(51, 126, 207, 0.2), rgba(51, 126, 207, 0.2)), #FFFFFF;
+        border-radius: 2px;
+    }
+
+    th {
+        min-width: 193px;
+    }
+
+    td {
+        text-align: unset;
+        vertical-align: top;
+    }
+
+    .sticky-col {
+        position: sticky;
+        position: -webkit-sticky;
+        background-color: white;
+    }
+
+    .to-left {
+        left: 0;
+    }
+
+    .to-right {
+        right: 0;
+    }
+
+    .to-top {
+        vertical-align: top;
+    }
+
+    table {
+        overflow: scroll;
+    }
+
+    .wrapper {
+        position: relative;
+        overflow: auto;
+        white-space: nowrap;
+        /*max-height: calc(100% - 70px);*/
+    }
+
+    .employee-avatar {
+        padding-left: 6px;
+    }
+
+    .employee-avatar img {
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+    }
+
+    .employee-info {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        color: #333333;
+        padding: 4px 6px 0 6px;
+        width: calc(100% - 42px);
+    }
+
+    .employee-name {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        color: #324353;
+        white-space: initial;
+        text-decoration: none;
+    }
+
+    .info-label {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        color: #63707C;
+        opacity: 0.7;
+        margin-right: 5px;
+    }
+
+    .trim-text-length {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        height: 1.2em;
+        white-space: nowrap;
+        /*display: inline-block;*/
+        display: block;
+    }
+
+    tr td:first-child {
+        width: 228px;
+        display: inline-block;
+        border-bottom: none;
+        border-right: none;
+        z-index: 4;
+    }
+
+    thead th {
+        position: sticky;
+        position: -webkit-sticky;
+        top: 0;
+        background: #F3F4F5;
+        z-index: 1;
+    }
+
+    table {
+        position: relative;
+    }
+
+    .tables-container {
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 52px);
+        justify-content: space-between;
+    }
+
+    .shift {
+        padding: 6px;
+        border-radius: 2px;
+        white-space: initial;
+        line-height: 12px;
+        margin-bottom: 4px;
+
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        color: #858F99;
+        cursor: pointer;
+    }
+
+    .blue-shift {
+        background: rgba(51, 126, 207, 0.16);
+    }
+
+    table {
+        height: 1px;
+    }
+
+    /*tr { height: 100%; }*/
+    /*td { height: 100%; }*/
+
+    .shift-desc {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 11px;
+        line-height: 14px;
+        letter-spacing: 0.32px;
+        color: #324353;
+        margin-top: 4px;
+        display: inline-block;
+    }
+
+    .shift-hours {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 10px;
+        line-height: 13px;
+        color: #858F99;
+    }
+
+    .info-icon {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 10px;
+        line-height: 13px;
+        padding: 0 1px 1px 1px;
+        letter-spacing: 0.32px;
+        color: #FFFFFF;
+        text-align: center;
+        border-radius: 2px;
+        margin-left: 2px;
+    }
+
+    .shift-title {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .s {
+        background: rgba(50, 67, 83, 0.19);
+    }
+
+    .exclamation-mark {
+        background: #C95C54;
+    }
+
+    .tv {
+        background: linear-gradient(0deg, #E79952, #E79952), rgba(241, 241, 241, 0.05);
+    }
+
+    .p {
+        background: linear-gradient(0deg, #4479B2, #4479B2), rgba(241, 241, 241, 0.05);
+    }
+
+
+    /*///////*/
+    .green-shift {
+        background: #74B566;
+        color: #FFFFFF;
+    }
+
+    .green-shift .shift-hours {
+        color: #FFFFFF;
+        opacity: 0.8;
+    }
+
+    .non-available-shift {
+        background: #FFC499;
+        height: calc(100% - 22px);
+    }
+
+    .available-shift {
+        background: #C5F8BB;;
+        height: calc(100% - 22px);
+    }
+
+    .calculated-hours td:first-child {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        text-align: right;
+        border-top-color: white;
+        border-bottom: none;
+        z-index: 5;
+        /*margin-bottom: -1px;*/
+        /*box-shadow: 0 0 7px rgba(76, 90, 104, 0.15);*/
+
+        background: white;
+        color: #63707C;
+        /*opacity: 0.7;*/
+    }
+
+    .calculated-hours td {
+        position: sticky;
+        position: -webkit-sticky;
+        bottom: 0;
+        background: white;
+    }
+
+    .calculated-hours td, .calculated-hours tr {
+        border-right-color: #FFFFFF;
+        border-top-color: #FFFFFF;
+        border-bottom-color: #FFFFFF;
+        /*border-left-color: #FFFFFF;*/
+        /*box-shadow: 0 0 7px rgba(76, 90, 104, 0.15);*/
+    }
+
+    .hours {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 15px;
+        color: #324353;
+    }
+
+    #shifts {
+        border-left: none !important;
+    }
+
+    #jobs {
+        /*border-left: 1px solid transparent;*/
+        border-left: 0 solid red;
+    }
+
+    td:hover .add-shift:hover {
+        opacity: 1;
+    }
+
+    .shift + .add-shift {
+        height: initial;
+    }
+
+    .add-shift {
+        min-height: 18px;
+        max-height: 46px;
+        background: #F3F4F5;
+        text-align: center;
+        padding-top: 0;
+        padding-bottom: 0;
+        margin-bottom: 0;
+        opacity: 0;
+        transition: opacity .2s;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+    }
+
+    /*.shift:hover .info-options{*/
+    /*    display: inline-block;*/
+    /*    opacity: 1;*/
+    /*    transition: all 0.3s ease-in-out;*/
+    /*    width: 12px;*/
+    /*}*/
+
+    .info-options {
+        position: relative;
+        background: linear-gradient(0deg, rgba(50, 67, 83, 0.2), rgba(50, 67, 83, 0.2)), rgba(241, 241, 241, 0.1);
+        transition: all 0.3s ease-in-out;
+        /*opacity: 0;*/
+        /*width: 0;*/
+    }
+
+    .info-options:hover {
+        background: linear-gradient(0deg, rgba(50, 67, 83, 0.3), rgba(50, 67, 83, 0.3)), rgba(241, 241, 241, 0.15);
+        transition: all 0.3s ease-in-out;
+    }
+
+
+    .info-options:hover .shift-options {
+        display: block;
+        /*opacity: 1;*/
+        /*pointer-events: all;*/
+        /*transition: all 0.1s ease-in-out;*/
+    }
+
+    .shift-options {
+        /*transition: all 0.1s ease-in-out;*/
+        /*pointer-events: none;*/
+        /*opacity: 0;*/
+        /*display: none;*/
+        position: absolute;
+        right: 0;
+        top: 14px;
+
+        background: #FFFFFF;
+        box-shadow: 0 8px 14px rgba(35, 41, 47, 0.15);
+        border-radius: 4px;
+        overflow: hidden;
+        padding: 9px 0;
+        z-index: 10;
+        text-align: left;
+    }
+
+    .shift-options span {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        /*line-height: 15px;*/
+        padding: 4px 12px;
+        width: 100%;
+        display: block;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: #333333;
+        white-space: nowrap;
+        text-align: left;
+    }
+
+    .shift-options span:hover {
+        background: #F3F4F5;
+        /*mix-blend-mode: multiply;*/
+        /*transition: all 0.2s;*/
+        color: #337ECF;;
+    }
+
+    filter-options {
+        z-index: 9;
+    }
+
+
+    .text-normal {
+        font-weight: normal;
+        text-transform: none;
+    }
+
+    .checkbox-group-title {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        /* identical to box height */
+
+        display: flex;
+        align-items: center;
+
+        color: #324353;
+    }
+
+    .checkbox-group-delimiter {
+        width: 100%;
+        display: inline-block;
+        height: 1px;
+        margin-bottom: 5px;
+        background: #E1EAF0;
+    }
+
+    .float-box {
+        background: #FFFFFF;
+        box-shadow: 0 8px 24px rgba(35, 41, 47, 0.2);
+        border-radius: 4px;
+        z-index: 9;
+        position: absolute;
+        left: 0;
+        top: 0;
+        transform: translateY(40px);
+        min-width: 345px;
+        cursor: initial;
+    }
+
+
+    .relative {
+        position: relative;
+    }
+
+    .checkbox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        color: #324353;
+        font-size: 12px;
+    }
+
+    .text-right {
+        text-align: right;
+    }
+
+    .more-options .text-red {
+        color: #C95C54;
+    }
+
+    .btn.btn-sm {
+        padding: 3px 5px;
+    }
+
+    .btn-default {
+        background: white;
+        color: #337ECF;
+    }
+
+    .btn-default:hover {
+        background: whitesmoke;
+    }
+
+    .more-options .btn-primary {
+        color: white;
+    }
+
+    .btn.btn-primary:hover {
+        background: #2765a8;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .btn.btn-gray {
+        background: #F3F4F5;
+        color: #337ECF;
+    }
+
+    .btn.btn-gray:hover {
+        background: #d7dbde;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .pb-0 {
+        padding-bottom: 0 !important;
+    }
+
+    .pb-5 {
+        padding-bottom: 5px !important;
+    }
+
+    .pt-10 {
+        padding-top: 10px !important;
+    }
+
+    .pt-5 {
+        padding-top: 5px !important;
+    }
+
+    .pt-0 {
+        padding-top: 0 !important;
+    }
+
+    .ml-5 {
+        margin-left: 5px;
+    }
+
+    .mt-20 {
+        margin-top: 20px;
+    }
+    .p-10 {
+        padding: 10px;
+    }
+
+    .form-input {
+        background: #F1F2F5;
+        /* Secondary/$secondary-l3 */
+
+        border: 1px solid #E7E7ED;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 8px 13px;
+    }
+
+    .max-height-150 {
+        max-height: 150px;
+        overflow: scroll;
+    }
+
+    /*More Options */
+    .more-options {
+        position: absolute;
+        right: 0;
+        top: 0;
+        z-index: 4;
+        background: white;
+        height: 100%;
+        width: 345px;
+        box-shadow: -8px 0 35px rgba(35, 41, 47, 0.1);
+        border-radius: 4px;
+        font-size: 12px;
+    }
+
+    .more-options button {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 15px;
+        border-radius: 4px;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        color: #337ECF;
+        transition: all 0.2s ease-in-out;
+        margin-left: 10px;
+    }
+
+    .more-options button:hover {
+        background: #d7dbde;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .more-options button.btn-primary:hover {
+        background: #2765a8;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .more-options .row {
+        padding: 20px;
+        border-bottom: 1px solid #E1EAF0;
+    }
+
+    .section-title {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 18px;
+        display: flex;
+        align-items: center;
+        color: #324353;
+    }
+
+    .content-stretch {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    /*Inputs*/
+    .section-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    .input-group {
+        margin: 0 2px;
+        position: relative;
+        width: 100%;
+    }
+
+    .input {
+        background: #F1F2F5;
+        border: 1px solid #E7E7ED;
+        box-sizing: border-box;
+        border-radius: 4px;
+        padding: 8px 13px;
+        width: 100%;
+        position: relative;
+    }
+
+    .input::placeholder {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        color: #324353;
+    }
+
+    .input-group svg {
+        position: absolute;
+        right: 0;
+        top: 0;
+        transform: translate(-30%, 30%);
+        z-index: 1;
+        user-select: none;
+        opacity: 0.8;
+        pointer-events: none;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    .blocks {
+        display: block;
+    }
+
+    .mb-15 {
+        margin-bottom: 15px;
+    }
+
+    .mt-6 {
+        margin-top: 6px;
+    }
+
+    .select-box {
+        display: block;
+    }
+
+    .check span, .check label, .check input {
+        cursor: pointer;
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    /* width */
+    .custom-scroll::-webkit-scrollbar {
+        width: 5px;
+        height: 5px;
+    }
+
+    /* Track */
+    .custom-scroll::-webkit-scrollbar-track {
+        /*box-shadow: inset 0 0 5px grey;*/
+        border-radius: 8px;
+    }
+
+    /* Handle */
+    .custom-scroll::-webkit-scrollbar-thumb {
+        background: #90A1AF;
+        border-radius: 8px;
+    }
+
+    /* Handle on hover */
+    .custom-scroll::-webkit-scrollbar-thumb:hover {
+        background: #72889a;
+        cursor: pointer;
+    }
+
+
+    .check {
+        font-size: 12px;
+        line-height: 15px;
+        /*cursor: pointer;*/
+        padding: 3px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .sidebar-hide {
+        transform: translateX(130%);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .sidebar-show {
+        transform: translateX(0%);
+        transition: all 0.5s ease-in-out;
+    }
+
+    .hours-available-hide {
+        display: none !important;
+    }
+
+    .hours-available-show {
+
+    }
+
+    th.available-hours {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 12px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+        text-transform: uppercase;
+        color: #324353;
+        /*height: 24px;*/
+        border-bottom: 1px solid #E1EAF0;
+        padding: 10px 16px;
+    }
+
+    .available-hours {
+        width: 270px;
+        background: #F3F4F5;
+        padding: 16px;
+    }
+
+    .diagram {
+        position: relative;
+    }
+
+    .diagram > svg {
+        /*position: absolute;*/
+    }
+
+    .cols-4 {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        white-space: normal;
+    }
+
+    .cols-4 span {
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 25px;
+        color: #324353;
+    }
+
+    .cols-4 div {
+        font-style: normal;
+        font-weight: normal;
+        font-size: 11px;
+        line-height: 14px;
+        color: #63707C;
+        text-align: center;
+        vertical-align: middle;
+        margin-top: 5px;
+    }
+
+
+    .selected-date-range {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 23px;
+        color: #324353;
+        border: none;
+        background: transparent;
+    }
+
+    .align-baseline {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    /*!* width *!*/
+    /*::-webkit-scrollbar {*/
+    /*    width: 5px;*/
+    /*    height: 5px;*/
+    /*}*/
+
+    /*!*!* Track *!*!*/
+    /*::-webkit-scrollbar-track {*/
+    /*    !*box-shadow: inset 0 0 5px grey;*!*/
+    /*    border-radius: 8px;*/
+    /*}*/
+
+    /*!* Handle *!*/
+    /*::-webkit-scrollbar-thumb {*/
+    /*    background: #90A1AF;*/
+    /*    border-radius: 8px;*/
+    /*}*/
+
+    /*!* Handle on hover *!*/
+    /*::-webkit-scrollbar-thumb:hover {*/
+    /*    background: #72889a;*/
+    /*    cursor: pointer;*/
+    /*}*/
+
+
+    /*.calculated-hours{*/
+    /*    filter: drop-shadow(0px 0px 7px rgba(76, 90, 104, 0.15));*/
+    /*    display: table-row;*/
+    /*}*/
+
+    /*.calculated-hours{*/
+    /*    !*box-shadow: 0 0 7px rgba(76, 90, 104, 0.15);*!*/
+    /*    box-shadow: 0 0 7px #000000;*/
+    /*    display: table-row;*/
+    /*}*/
+
+
+    /*Custom checkboxes*/
+    /*label,*/
+    /*input[type="radio"] + span,*/
+    /*input[type="radio"] + span::before,*/
+    /*label,*/
+    /*input[type="checkbox"] + span,*/
+    /*input[type="checkbox"] + span::before*/
+    /*{*/
+    /*    display: inline-block;*/
+    /*    vertical-align: middle;*/
+    /*}*/
+
+    /*label **/
+    /*{*/
+    /*    cursor: pointer;*/
+    /*}*/
+
+    /*input[type="radio"],*/
+    /*input[type="checkbox"]*/
+    /*{*/
+    /*    opacity: 0;*/
+    /*    position: absolute;*/
+    /*}*/
+
+    /*input[type="radio"] + span,*/
+    /*input[type="checkbox"] + span*/
+    /*{*/
+    /*    font: normal 11px/14px Arial, Sans-serif;*/
+    /*    color: #333;*/
+    /*}*/
+
+    /*label:hover span::before*/
+    /*{*/
+    /*    -moz-box-shadow: 0 0 2px #ccc;*/
+    /*    -webkit-box-shadow: 0 0 2px #ccc;*/
+    /*    box-shadow: 0 0 2px #ccc;*/
+    /*}*/
+
+    /*label:hover span*/
+    /*{*/
+    /*    color: #000;*/
+    /*}*/
+
+    /*input[type="radio"] + span::before,*/
+    /*input[type="checkbox"] + span::before*/
+    /*{*/
+    /*    content: "";*/
+    /*    width: 12px;*/
+    /*    height: 12px;*/
+    /*    margin: 0 4px 0 0;*/
+    /*    border: solid 1px #a8a8a8;*/
+    /*    line-height: 14px;*/
+    /*    text-align: center;*/
+
+    /*    -moz-border-radius: 100%;*/
+    /*    -webkit-border-radius: 100%;*/
+    /*    border-radius: 100%;*/
+
+    /*    background: #f6f6f6;*/
+    /*    background: -moz-radial-gradient(#f6f6f6, #dfdfdf);*/
+    /*    background: -webkit-radial-gradient(#f6f6f6, #dfdfdf);*/
+    /*    background: -ms-radial-gradient(#f6f6f6, #dfdfdf);*/
+    /*    background: -o-radial-gradient(#f6f6f6, #dfdfdf);*/
+    /*    background: radial-gradient(#f6f6f6, #dfdfdf);*/
+    /*}*/
+
+    /*input[type="radio"]:checked + span::before,*/
+    /*input[type="checkbox"]:checked + span::before*/
+    /*{*/
+    /*    color: #666;*/
+    /*}*/
+
+    /*input[type="radio"]:disabled + span,*/
+    /*input[type="checkbox"]:disabled + span*/
+    /*{*/
+    /*    cursor: default;*/
+
+    /*    -moz-opacity: .4;*/
+    /*    -webkit-opacity: .4;*/
+    /*    opacity: .4;*/
+    /*}*/
+
+    /*input[type="checkbox"] + span::before*/
+    /*{*/
+    /*    -moz-border-radius: 2px;*/
+    /*    -webkit-border-radius: 2px;*/
+    /*    border-radius: 2px;*/
+    /*}*/
+
+    /*input[type="radio"]:checked + span::before*/
+    /*{*/
+    /*    content: "\2022";*/
+    /*    font-size: 30px;*/
+    /*    margin-top: -1px;*/
+    /*}*/
+
+    /*input[type="checkbox"]:checked + span::before*/
+    /*{*/
+    /*    content: "\2714";*/
+    /*    font-size: 12px;*/
+    /*}*/
+
+    /*input[class="blue"] + span::before*/
+    /*{*/
+    /*    border: solid 1px blue;*/
+    /*    background: #B2DBFF;*/
+    /*    background: -moz-radial-gradient(#B2DBFF, #dfdfdf);*/
+    /*    background: -webkit-radial-gradient(#B2DBFF, #dfdfdf);*/
+    /*    background: -ms-radial-gradient(#B2DBFF, #dfdfdf);*/
+    /*    background: -o-radial-gradient(#B2DBFF, #dfdfdf);*/
+    /*    background: radial-gradient(#B2DBFF, #dfdfdf);*/
+    /*}*/
+    /*input[class="blue"]:checked + span::before*/
+    /*{*/
+    /*    color: darkblue;*/
+    /*}*/
+
+    /*input[class="red"] + span::before*/
+    /*{*/
+    /*    border: solid 1px red;*/
+    /*    background: #FF9593;*/
+    /*    background: -moz-radial-gradient(#FF9593, #dfdfdf);*/
+    /*    background: -webkit-radial-gradient(#FF9593, #dfdfdf);*/
+    /*    background: -ms-radial-gradient(#FF9593, #dfdfdf);*/
+    /*    background: -o-radial-gradient(#FF9593, #dfdfdf);*/
+    /*    background: radial-gradient(#FF9593, #dfdfdf);*/
+    /*}*/
+    /*input[class="red"]:checked + span::before*/
+    /*{*/
+    /*    color: darkred;*/
+    /*}*/
+
+    .hidden {
+        display: none !important;
+    }
+
+    /*Popups*/
+    .overlay {
+        background: rgba(50, 67, 83, 0.5);
+        /*opacity: 0.5;*/
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        min-width: 100%;
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999999;
+    }
+
+    .popup-container {
+        background: white;
+        padding: 15px 30px;
+        min-width: 475px;
+    }
+
+    .rounded-t {
+        background: #FFFFFF;
+        box-shadow: -8px 0 35px rgba(35, 41, 47, 0.1);
+        border-radius: 10px 10px 0 0;
+    }
+
+    .rounded-b {
+        background: #FFFFFF;
+        box-shadow: -8px 0 35px rgba(35, 41, 47, 0.1);
+        border-radius: 0 0 10px 10px;
+    }
+
+    .border-b {
+        border-bottom: 1px solid;
+    }
+
+    .border-gray {
+        border-bottom-color: #E1EAF0;
+    }
+
+    .flex {
+        display: flex;
+    }
+
+    .justify-between {
+        justify-content: space-between;
+    }
+
+    .items-center {
+        align-items: center;
+    }
+
+    .tab {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 23px;
+
+        display: flex;
+        align-items: center;
+        color: #324353;
+        opacity: 0.5;
+        margin: 0 16px;
+        padding: 15px 0;
+    }
+
+    .tab.active {
+        color: #337ECF;
+        border-bottom: 3px solid #337ECF;
+        opacity: 1;
+    }
+
+    .justify-end {
+        justify-content: flex-end;
+    }
+
+    .overflow-y-auto {
+        overflow-y: auto;
+    }
+
+    .bg-white {
+        background: white;
+    }
+
+    .flex {
+        display: flex;
+        flex-direction: row;
+    }
+    .justify-between {
+        justify-content: space-between;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .bg-transparent{
+        background: transparent;
+        border: none;
+    }
+
+</style>
+<body>
+<div id="app">
+    <div class="tables-container">
+        <div class="scroll-sync-container" style="overflow: auto">
+            <div id="employees-space" style="height: 50%;overflow-y: auto;overflow-x: hidden;min-width: fit-content;">
+                <div id="shifts-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: #337ecf">
+                                <p>Employee Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee details</p>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="jobs-space" style="height: 50%;overflow-y: auto;overflow-x: hidden;min-width: fit-content;">
+                <div id="jobs-table">
+                    <table>
+                        <tbody>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="employee-column sticky-col to-left" style="background-color: yellow">
+                                <p>Job Information</p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+                            <td class="droppable">
+                                <p>Employee job </p>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
